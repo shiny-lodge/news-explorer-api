@@ -30,9 +30,9 @@ npm run dev - запуск приложения в режиме разработ
 ## Ссылки на проект 
  
 Обратиться к серверу можно по адресам:
-https://api.lomovitsky.ru
-https://www.api.lomovitsky.ru
+* https://api.lomovitsky.ru
+* https://www.api.lomovitsky.ru
 
 Выделенные IP: 
-IPv4: 81.177.136.120
-IPv6: 2001:1bb0:e000:1e::916
+* IPv4: 81.177.136.120
+* IPv6: 2001:1bb0:e000:1e::916
