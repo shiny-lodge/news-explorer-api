@@ -2,7 +2,7 @@ const bcrypt = require('bcryptjs');
 const escape = require('escape-html');
 const { createToken, messages } = require('../utils');
 const User = require('../models/user');
-const { BadRequestError, NotFoundError } = require('../errors');
+const { BadRequestError, NotFoundError, ConflictError } = require('../errors');
 
 module.exports.getUserInfo = async (req, res, next) => {
   try {
@@ -36,7 +36,12 @@ module.exports.createUser = async (req, res, next) => {
       },
     });
   } catch (err) {
-    next(new BadRequestError(err.message));
+    if (err.errors.email.kind === 'unique') {
+      next(new ConflictError(messages.registration.emailIsNotUnique));
+    } else {
+      next(new BadRequestError({message: 'SHIEEET' }));
+    }
+    next(err);
   }
 };
 
