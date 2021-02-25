@@ -1,92 +1,49 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
-const { messages } = require('../utils');
 
 const articleSchema = new mongoose.Schema({
   keyword: {
     type: String,
-    required: [true, 'Длинна ключевого слова должна составлять от 2 до 30 символов'],
-    minlength: 2,
-    maxlength: 30,
-    validate: {
-      validator(text) {
-        return !validator.isEmpty(text, { ignore_whitespace: true });
-      },
-      message: messages.schemas.isEmpty,
-    },
+    required: [true, 'Поле "keyword" должно быть заполнено'],
   },
   title: {
     type: String,
-    required: [true, 'Длинна заголовка должна быть больше 2 символов'],
-    minlength: 2,
-    validate: {
-      validator(text) {
-        return !validator.isEmpty(text, { ignore_whitespace: true });
-      },
-      message: messages.schemas.isEmpty,
-    },
+    required: [true, 'Поле "title" должно быть заполнено'],
   },
   text: {
     type: String,
-    required: [true, 'Длинна статьи должна быть больше 2 символов'],
-    minlength: 2,
-    validate: {
-      validator(text) {
-        return !validator.isEmpty(text, { ignore_whitespace: true });
-      },
-      message: messages.schemas.isEmpty,
-    },
+    required: [true, 'Поле "text" должно быть заполнено'],
   },
   date: {
     type: String,
-    required: [true, 'Длинна даты должна быть от 2 до 30 символов'],
-    minlength: 2,
-    maxlength: 30,
-    validate: {
-      validator(text) {
-        return !validator.isEmpty(text, { ignore_whitespace: true });
-      },
-      message: messages.schemas.isEmpty,
-    },
+    required: [true, 'Поле "date" должно быть заполнено'],
   },
   source: {
     type: String,
-    required: [true, 'Длинна наименования ресурса должна быть от 2 до 30 символов'],
-    minlength: 2,
-    maxlength: 30,
-    validate: {
-      validator(text) {
-        return !validator.isEmpty(text, { ignore_whitespace: true });
-      },
-      message: messages.schemas.isEmpty,
-    },
+    required: [true, 'Поле "source" должно быть заполнено'],
   },
   link: {
     type: String,
+    required: [true, 'Поле "link" должно быть заполнено'],
     validate: {
-      validator(link) {
-        return validator.isURL(link);
-      },
-      message: messages.schemas.wrongUrl,
+      validator: (v) => validator.isURL(v),
+      message: 'Поле "link" должно быть валидным url-адресом',
     },
-    required: [true, 'Ссылка на статью обязательна'],
   },
   image: {
     type: String,
+    required: [true, 'Поле "image" должно быть заполнено'],
     validate: {
-      validator(link) {
-        return validator.isURL(link);
-      },
-      message: messages.schemas.wrongUrl,
+      validator: (v) => validator.isURL(v),
+      message: 'Поле "image" должно быть валидным url-адресом',
     },
-    required: [true, 'Ссылка на изображение обязательна'],
   },
   owner: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'user',
-    required: true,
+    required: [true, 'Поле "owner" должно быть заполнено'],
     select: false,
   },
 });
 
-module.exports = mongoose.model('articles', articleSchema);
+module.exports = mongoose.model('article', articleSchema);

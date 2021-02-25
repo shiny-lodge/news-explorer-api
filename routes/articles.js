@@ -1,32 +1,11 @@
 const router = require('express').Router();
-const { celebrate } = require('celebrate');
-
 const {
-  deleteUserArticle,
-  getUserArticles,
-  createArticle,
+  createArticle, getArticles, deleteArticle,
 } = require('../controllers/articles');
-const { articleSchema, objectIdSchema } = require('../joi-schemas/index');
-const { verifyArticleId } = require('../middlewares/object-id');
-const auth = require('../middlewares/auth');
+const { validateArticleBody, validateArticleId } = require('../middlewares/validators');
 
-router.use(auth);
-
-router.get('/', getUserArticles);
-
-router.post(
-  '/',
-  celebrate({
-    body: articleSchema,
-  }),
-  createArticle,
-);
-
-router.delete(
-  '/:articleId',
-  celebrate({ params: objectIdSchema }),
-  verifyArticleId,
-  deleteUserArticle,
-);
+router.post('/', validateArticleBody, createArticle);
+router.get('/', getArticles);
+router.delete('/:articleId', validateArticleId, deleteArticle);
 
 module.exports = router;
